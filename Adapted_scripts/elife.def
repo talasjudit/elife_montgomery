@@ -6,7 +6,7 @@ From: centos:7
     yum -y update
     yum -y install epel-release
     yum -y groupinstall "Development Tools"
-    yum -y install wget curl java-1.8.0-openjdk-devel zlib-devel
+    yum -y install wget curl java-1.8.0-openjdk-devel zlib-devel ncurses-devel bzip2-devel xz-devel openssl-devel
 
     # Set environment variables
     export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
@@ -66,4 +66,3 @@ From: centos:7
 
     # Add installed tools to PATH
     export PATH=$JAVA_HOME/bin:$GATK_HOME:$PICARD_HOME:$STAR_HOME/bin:$BWA_HOME:$BOWTIE2_HOME:$SAMTOOLS_HOME:$BEDTOOLS_HOME/bin:$PATH
-
