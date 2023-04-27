@@ -1,0 +1,15 @@
+# Huygens Deconvolution template file
+# Format: nested Tcl-style list
+# Saved: Wed Sep 22 11:35:08 CEST 2021
+
+info {title {Deconvolution template} version 2.4 templateName 15DAF_H3K36me3_decon date {Wed Sep 22 11:35:08 CEST 2021}}
+taskList {autocrop stabilize adjbl cmle:0 cmle:1 zdrift stabilize:post shift:0 shift:1}
+autocrop {enabled 0}
+stabilize {enabled 0}
+adjbl {enabled 0 ni 0}
+cmle:0 {reduceMode auto psfMode auto psfPath {} it 40 q 0.05 bgMode lowest bgRadius 0.7 brMode auto varPsf off varPsfCnt 1 blMode off pad auto mode fast timeOut 10000 bg 0.0 sn 4 psfChan {}}
+cmle:1 {reduceMode auto psfMode auto psfPath {} it 40 q 0.05 bgMode lowest bgRadius 0.7 brMode auto varPsf off varPsfCnt 1 blMode off pad auto mode fast timeOut 10000 bg 0.0 sn 5 psfChan {}}
+zdrift {enabled 0 survey single chan 0 filter median filterSize 3}
+stabilize:post {enabled 0 dim z mode corr rot 0 crop original}
+shift:0 {q standard vector {0.0 0.0 0.0} reference 1 channel - lambdaEm {} lambdaEx {} lambdaSted {} mType {} estMethod {}}
+shift:1 {q standard vector {0.0 0.0 0.0} reference 1 channel - lambdaEm {} lambdaEx {} lambdaSted {} mType {} estMethod {}}
