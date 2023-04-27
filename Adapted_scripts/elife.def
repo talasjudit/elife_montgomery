@@ -1,0 +1,69 @@
+Bootstrap: docker
+From: centos:7
+
+%post
+    # Update and install necessary packages
+    yum -y update
+    yum -y install epel-release
+    yum -y groupinstall "Development Tools"
+    yum -y install wget curl java-1.8.0-openjdk-devel zlib-devel
+
+    # Set environment variables
+    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+    export PATH=$JAVA_HOME/bin:$PATH
+
+    # Install GATK
+    mkdir /opt/gatk
+    wget -O /opt/gatk/gatk-4.0.1.2.zip https://github.com/broadinstitute/gatk/releases/download/4.0.1.2/gatk-4.0.1.2.zip
+    unzip /opt/gatk/gatk-4.0.1.2.zip -d /opt/gatk
+    rm /opt/gatk/gatk-4.0.1.2.zip
+
+    # Install Picard
+    mkdir /opt/picard
+    wget -O /opt/picard/picard.jar https://github.com/broadinstitute/picard/releases/download/2.18.27/picard.jar
+
+    # Install STAR
+    wget -O /opt/STAR-2.7.1a.tar.gz https://github.com/alexdobin/STAR/archive/2.7.1a.tar.gz
+    tar -xzf /opt/STAR-2.7.1a.tar.gz -C /opt
+    rm /opt/STAR-2.7.1a.tar.gz
+
+    # Install BWA
+    wget -O /opt/bwa-0.7.17.tar.bz2 https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2/download
+    tar -xjf /opt/bwa-0.7.17.tar.bz2 -C /opt
+    rm /opt/bwa-0.7.17.tar.bz2
+    cd /opt/bwa-0.7.17
+    make
+
+    # Install Bowtie2
+    wget -O /opt/bowtie2-2.3.4.2-linux-x86_64.zip https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4.2/bowtie2-2.3.4.2-linux-x86_64.zip/download
+    unzip /opt/bowtie2-2.3.4.2-linux-x86_64.zip -d /opt
+    rm /opt/bowtie2-2.3.4.2-linux-x86_64.zip
+
+    # Install Samtools
+    wget -O /opt/samtools-1.9.tar.bz2 https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+    tar -xjf /opt/samtools-1.9.tar.bz2 -C /opt
+    rm /opt/samtools-1.9.tar.bz2
+    cd /opt/samtools-1.9
+    make
+
+    # Install Bedtools
+    wget -O /opt/bedtools-2.27.1.tar.gz https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz
+      tar -xzf /opt/bedtools-2.27.1.tar.gz -C /opt
+    rm /opt/bedtools-2.27.1.tar.gz
+    cd /opt/bedtools2
+    make
+
+%environment
+    # Set environment variables for installed tools
+    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+    export GATK_HOME=/opt/gatk
+    export PICARD_HOME=/opt/picard
+    export STAR_HOME=/opt/STAR-2.7.1a
+    export BWA_HOME=/opt/bwa-0.7.17
+    export BOWTIE2_HOME=/opt/bowtie2-2.3.4.2
+    export SAMTOOLS_HOME=/opt/samtools-1.9
+    export BEDTOOLS_HOME=/opt/bedtools2
+
+    # Add installed tools to PATH
+    export PATH=$JAVA_HOME/bin:$GATK_HOME:$PICARD_HOME:$STAR_HOME/bin:$BWA_HOME:$BOWTIE2_HOME:$SAMTOOLS_HOME:$BEDTOOLS_HOME/bin:$PATH
+
